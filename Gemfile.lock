@@ -30,6 +30,7 @@ GEM
     unicode-display_width (2.1.0)
 
 PLATFORMS
+  aarch64-linux
   armv7l-linux-eabihf
 
 DEPENDENCIES

@@ -13,12 +13,7 @@ capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
       'headless',
       'disable-gpu',
       'lang=ja-JP',
-      <<~USER_AGENT,
-        user-agent=Mozilla/5.0 (X11; CrOS armv7l 13597.84.0)
-        AppleWebKit/537.36 (KHTML, like Gecko)
-        Chrome/92.0.4515.98
-        Safari/537.36
-      USER_AGENT
+      'user-agent=Mozilla/5.0 (X11; CrOS aarch64 13597.84.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.106 Safari/537.36',
       "user-data-dir=#{__dir__}/user_data"
     ]
   }

@@ -5,9 +5,9 @@ require 'selenium-webdriver'
 require 'sentry-ruby'
 
 Dotenv.load("#{__dir__}/.env")
-MONEYFORWARD_EMAIL = ENV['MONEYFORWARD_EMAIL']
-MONEYFORWARD_PASSWORD = ENV['MONEYFORWARD_PASSWORD']
-SENTRY_DSN = ENV['SENTRY_DSN']
+MONEYFORWARD_EMAIL = ENV.fetch('MONEYFORWARD_EMAIL')
+MONEYFORWARD_PASSWORD = ENV.fetch('MONEYFORWARD_PASSWORD')
+SENTRY_DSN = ENV.fetch('SENTRY_DSN')
 
 Sentry.init do |config|
   config.dsn = SENTRY_DSN

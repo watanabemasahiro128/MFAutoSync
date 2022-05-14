@@ -7,6 +7,7 @@ ruby '3.1.2'
 
 gem 'dotenv'
 gem 'selenium-webdriver'
+gem 'sentry-ruby'
 
 group :development do
   gem 'rubocop', require: false

@@ -70,7 +70,6 @@ begin
   end
 
   driver.quit
-  Sentry.capture_message('Success', level: :info)
 rescue StandardError => e
   Sentry.capture_exception(e)
 end

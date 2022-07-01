@@ -54,18 +54,30 @@ begin
     element.click
     sleep 1
   end
-  captcha_urls = driver.find_elements(:tag_name, 'a').select { |element| element.text.include?('要画像認証') }.map { |element| element.attribute('href') }
+  captcha_urls = driver.find_elements(:tag_name, 'a').map do |element|
+    return nil unless element.text.include?('要画像認証')
+
+    element.attribute('href')
+  rescue StandardError
+    nil
+  end
+  captcha_urls.compact!
   captcha_urls.each do |captcha_url|
     driver.navigate.to(captcha_url)
     sleep 30
     driver.navigate.to(captcha_url)
-    sleep 60
-    source = driver.find_element(:xpath, "//img[@alt='認証用画像']").attribute('src')
-    source = Base64.decode64(source.sub(%r{^data:image/(png|jpg|jpeg);base64,}, ''))
-    captcha_annotater = CaptchaAnnotater.new(GCP_API_KEY)
-    captcha_word = captcha_annotater.annotate(source)
-    driver.find_element(:xpath, '//input[@id="additional_request_response_data"]').send_keys(captcha_word)
-    driver.find_element(:xpath, '//input[@name="commit"][@value="登録"]').click
+    3.times do
+      sleep 60
+      source = driver.find_element(:xpath, "//img[@alt='認証用画像']").attribute('src')
+      source = Base64.decode64(source.sub(%r{^data:image/(png|jpg|jpeg);base64,}, ''))
+      captcha_annotater = CaptchaAnnotater.new(GCP_API_KEY)
+      captcha_word = captcha_annotater.annotate(source)
+      driver.find_element(:xpath, '//input[@id="additional_request_response_data"]').send_keys(captcha_word)
+      driver.find_element(:xpath, '//input[@name="commit"][@value="登録"]').click
+      break
+    rescue StandardError
+      # Do nothing
+    end
     sleep 10
   end
 
